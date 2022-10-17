@@ -32,7 +32,7 @@ nmcli connection add \
 	ifname lxcbr0 \
 	con-name lxcbr0 \
 	ipv4.method \
-	manual ipv4.addresses "10.10.10.1/24"
+	manual ipv4.addresses "10.10.9.1/24"
 nmcli connection up lxcbr0
 ```
 
@@ -48,10 +48,10 @@ lxc-stop -n container-1
 vim /etc/dnsmasq.d/simple
 ```
 ```
-listen-address=10.10.10.1
+listen-address=10.10.9.1
 server=8.8.8.8
 dhcp-authoritative
-dhcp-range=lxcbr0,10.10.10.50,10.10.10.150,1h
+dhcp-range=lxcbr0,10.10.9.50,10.10.9.150,1h
 ```
 ```bash
 systemctl restart dnsmasq.serivce
@@ -80,7 +80,7 @@ systemctl enable nftables
 vim /etc/dnsmasq.d/simple
 ```
 ```
-dhcp-host=00:16:3e:09:c7:18,container1,10.10.10.84
+dhcp-host=00:16:3e:09:c7:18,container1,10.10.9.84
 ```
 ```bash
 systemctl reload dnsmasq

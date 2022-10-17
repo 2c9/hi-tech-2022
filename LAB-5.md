@@ -1,3 +1,5 @@
+![Topology](images/lab-3-4-5.png)
+
 ## Centos-0
 
 ### Configure NAT

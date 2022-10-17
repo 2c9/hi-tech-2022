@@ -1,3 +1,5 @@
+![Topology](images/lab-3-4-5.png)
+
 ### STEP 1 ) Configure the cisco router
 
 ```

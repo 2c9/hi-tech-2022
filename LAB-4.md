@@ -34,7 +34,7 @@ crypto isakmp policy 1
  hash sha256
  group 14
 !
-crypto isakmp key TheSecretMustBeAtLeast13bytes address 192.168.255.45
+crypto isakmp key TheSecretMustBeAtLeast13bytes address 192.168.255.147
 crypto isakmp nat keepalive 5
 !
 crypto ipsec transform-set TSET  esp-aes 256 esp-sha256-hmac
@@ -80,7 +80,7 @@ conn mytunnel
     encapsulation=yes
 
     leftsubnet=0.0.0.0/0
-    rightsubnes=10.10.90.0/24,192.168.20.0/30
+    rightsubnets=10.10.90.0/24,192.168.20.0/30
     left=<linux-ip>
     right=<cisco-ip>
 
@@ -105,3 +105,64 @@ ip xfrm state
 ip xfrm policy
 ```
 
+## With Dynamic Routing
+
+### Chnage cisco tunnel setings and add ospf
+```
+interface Tunnel0
+ ip address 192.168.20.1 255.255.255.252
+ ip ospf network broadcast
+ ip ospf mtu-ignore
+ tunnel source GigabitEthernet0/0
+ tunnel mode ipsec ipv4
+ tunnel destination <linux-ip>
+ tunnel protection ipsec profile VTI
+
+router ospf 1
+ network 10.10.90.0 0.0.0.255 area 0
+ network 192.168.20.0 0.0.0.3 area 0
+```
+
+### Chnage linux ipsec settings
+
+```bash
+vim /etc/ipsec.conf
+```
+```
+    leftsubnet=0.0.0.0/0
+    rightsubnet=0.0.0.0/0
+    left=<linux-ip>
+    right=<cisco-ip>
+```
+
+### Install FRR
+
+```bash
+dnf install frr
+```
+
+Enbale ospf
+```bash
+vim /etc/frr/daemons
+ospfd=yes
+```
+
+### Start FRR
+
+```
+systemctl enable --now frr
+vtysh
+```
+
+### Configure OSPF
+```
+interface vti01
+ ip ospf mtu-ignore
+
+router ospf
+ network 10.10.10.0/24 area 0
+ network 10.10.20.0/24 area 0
+ network 10.10.30.0/24 area 0
+ network 10.10.50.0/24 area 0
+ network 192.168.20.0/30 area 0
+```

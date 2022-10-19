@@ -18,6 +18,7 @@ virsh
 virsh # pool-list
 virsh # net-list
 virsh # net-dumpxml --network default
+virsh # net-start --network default
 ```
 
 ### Create dir pool
@@ -207,7 +208,7 @@ dhcp-range=10.20.20.50,10.20.20.150,1h
 ```bash
 nft add table nat
 nft 'add chain nat postrouting { type nat hook postrouting priority 100 ; }'
-nft 'add rule nat postrouting oifname eth1 masquerade'
+nft 'add rule nat postrouting oifname ens2 masquerade'
 nft list ruleset >> /etc/sysconfig/nftables.conf
 systemctl enable nftables
 ```

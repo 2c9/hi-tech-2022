@@ -107,7 +107,7 @@ ip xfrm policy
 
 ## With Dynamic Routing
 
-### Chnage cisco tunnel setings and add ospf
+### Chnage cisco tunnel settings and add ospf
 ```
 interface Tunnel0
  ip address 192.168.20.1 255.255.255.252

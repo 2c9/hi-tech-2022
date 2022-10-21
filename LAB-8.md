@@ -39,6 +39,12 @@ vim /etc/docker/daemon.json
 systemctl restart docker.service
 ```
 
+## MAC
+
+```bash
+dhcp-host=00:16:3e:09:c7:18,container1,10.10.10.84
+```
+
 ## SRV2 install jenkins
 
 
@@ -74,17 +80,36 @@ Follow this guide: [Install Jenkins](https://www.jenkins.io/doc/book/installing/
 
 ## Configure Jenkins
 
+```bash
+
+gpasswd -a jenkins docker
+systemctl restart jenkins.service
+```
+
 - Manage Jenkins > Configure System > Docker Builder > Docker URL
   - unix:///var/run/docker.sock
 - Repository URL: https://github.com/2c9/devops-hi-tech-2022.git
 - Branch: */main
-- Poll SCM: H/5 * * * *
+- Poll SCM: H * * * *
 - Build: $WORKSPACE
   - TAG: <user>/<image>:latest
 - PUSH: <user>/<image>
   - TAG: latest
   - Registry: index.docker.io
   - Docker registry URL: https://index.docker.io/v1/
+
+
+![jenkins-1](images/jenkins/1.png)
+
+![jenkins-2](images/jenkins/2.png)
+
+![jenkins-3](images/jenkins/3.png)
+
+![jenkins-4](images/jenkins/4.png)
+
+![jenkins-5](images/jenkins/5.png)
+
+![jenkins-6](images/jenkins/6.png)
 
 ## Add SRV1 to nginx
 

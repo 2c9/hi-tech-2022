@@ -91,7 +91,7 @@ L  = Moscow
 O  = KP11
 CN = ht2022.wsr
 [v3_req]
-keyUsage = keyEncipherment, dataEncipherment
+keyUsage = nonRepudiation, keyEncipherment, digitalSignature
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
@@ -127,4 +127,4 @@ server {
 ### Revoke a certificate
 
 1. Grep /etc/ssl/index.txt to obtain the serial number of the key to be revoked
-2. openssl ca -revoke /etc/ssl/newcerts/<SERIAL_NUMBER>.pem
+2. openssl ca -revoke /root/ca/newcerts/<SERIAL_NUMBER>.pem -config ca.cnf

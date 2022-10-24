@@ -89,7 +89,7 @@ systemctl restart jenkins.service
   - unix:///var/run/docker.sock
 - Repository URL: https://github.com/2c9/devops-hi-tech-2022.git
 - Branch: */main
-- Poll SCM: H * * * *
+- Poll SCM: * * * * * # Every minute
 - Build: $WORKSPACE
   - TAG: <user>/<image>:latest
 - PUSH: <user>/<image>

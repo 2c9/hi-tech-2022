@@ -81,7 +81,6 @@ Follow this guide: [Install Jenkins](https://www.jenkins.io/doc/book/installing/
 ## Configure Jenkins
 
 ```bash
-
 gpasswd -a jenkins docker
 systemctl restart jenkins.service
 ```

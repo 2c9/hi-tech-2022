@@ -1,0 +1,68 @@
+---
+- name: Update db servers
+  hosts: databases
+  remote_user: user
+  become: yes
+  vars:
+    db_name: db
+    db_user: test
+    db_password: password
+
+  tasks:
+  - name: Install a modularity appstream with defined stream
+    dnf:
+      name: [ '@postgresql:13', 'python3-psycopg2' ]
+      state: present
+  
+  - name: Find out if PostgreSQL is initialized
+    stat:
+      path: "/var/lib/pgsql/data/pg_hba.conf"
+    register: postgres_data
+  
+  - name: Initialize PostgreSQL
+    shell: "postgresql-setup initdb"
+    when: not postgres_data.stat.exists
+  
+  - name: Ensure that postgresql is started
+    service:
+      name: postgresql
+      state: started
+      enabled: yes
+  
+  - name: Create a database
+    become: yes
+    become_user: postgres
+    postgresql_db:
+      state: present
+      name: "{{ db_name }}"
+  
+  - name: Create db user
+    become: yes
+    become_user: postgres
+    postgresql_user:
+      name: "{{ db_user }}"
+      password: "{{ db_password }}"
+      state: present
+  
+  - name: Set listen_addresses
+    lineinfile: 
+      dest: "/var/lib/pgsql/data/postgresql.conf"
+      regexp: "listen_addresses ="
+      line: "listen_addresses = '*' "
+      state: present
+    notify: restart postgres
+  
+  - name: Allow remoute connections
+    postgresql_pg_hba:
+      dest: /var/lib/pgsql/data/pg_hba.conf
+      contype: host
+      databases: all
+      users: all
+      source: 172.30.77.0/24
+      method: md5
+      create: true
+    notify: restart postgres
+
+  handlers:
+    - name: restart postgres
+      service: name=postgresql state=restarted

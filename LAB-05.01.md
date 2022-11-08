@@ -180,7 +180,7 @@ iface bond0 inet manual
     ovs_bridge ovs0
     ovs_type OVSBond
     ovs_bonds eth0 eth1
-    ovs_options bond_mode=active-backup lacp=active vlan_mode=native-untagged tag=1 trunks=10,20
+    ovs_options bond_mode=active-backup lacp=passive vlan_mode=native-untagged tag=1 trunks=10,20
 ```
 
 ### SW-B
@@ -203,7 +203,7 @@ iface bond0 inet manual
     ovs_bridge ovs0
     ovs_type OVSBond
     ovs_bonds eth0 eth1
-    ovs_options bond_mode=active-backup lacp=active vlan_mode=native-untagged tag=1 trunks=10,20
+    ovs_options bond_mode=active-backup lacp=passive vlan_mode=native-untagged tag=1 trunks=10,20
 ```
 
 ## SRV-1 DHCP
@@ -301,3 +301,5 @@ apt install isc-dhcp-relay
 ```
 
 ![Topology](images/astra-relay.png)
+
+ovs0-10 ovs0-20 ovs0-30

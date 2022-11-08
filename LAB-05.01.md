@@ -1,20 +1,31 @@
 ## Astra - openvswitch
 
-### Fix repos
+## Enable Debian repos
 
 ```bash
 vim /etc/apt/sources.list
+deb http://dl.astralinux.ru/astra/stable/1.7_x86-64/repository-main/ 1.7_x86-64 main contrib non-free
+
+sudo apt update
+sudo apt install -y apt-transport-https ca-certificates wget
+
+wget https://dl.astralinux.ru/astra/testing/orel/repository/pool/main/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb
+sudo apt install ./debian-archive-keyring_2017.5_all.deb
+
+vim /etc/apt/sources.list
 ```
+
 ```
 deb http://dl.astralinux.ru/astra/stable/1.7_x86-64/repository-main/ 1.7_x86-64 main contrib non-free
+deb http://deb.debian.org/debian/               stretch         main contrib non-free
+deb http://security.debian.org/debian-security/ stretch/updates main contrib non-free
+deb http://mirror.yandex.ru/debian/             buster          main contrib non-free
 ```
 
 ```bash
-apt install -y apt-transport-https ca-certificates debian-archive-keyring dirmngr
-vim /etc/apt/sources.list
-```
-```
-deb https://mirror.yandex.ru/debian/ stretch main contrib non-free
+apt update
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com DCC9EFBF77E11517
+apt update
 ```
 
 ### Install OVS

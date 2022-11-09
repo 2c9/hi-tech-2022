@@ -1,2 +1,3 @@
 - LAB-05.01 - Astra OVS
 - LAB-12.00 - Astra GlusterFS
+- LAB-13.00 - Squid
